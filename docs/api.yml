@@ -100,17 +100,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-  /authors/{id}:
+  /authors/{aId}:
     delete:
-      summary: Delete a list of authors
-      operationId: deleteAuthors
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
+      summary: Delete an author
+      operationId: deleteAuthor
+      parameters:
+        - name: aId
+          in: path
+          description: Author Identifier to be related
+          schema:
+            type: string
+          required: true
       responses:
         200:
           description: The list of deleted authors
