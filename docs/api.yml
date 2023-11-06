@@ -151,7 +151,7 @@ components:
           type: string
         name:
           type: string
-        sex:
+    ex:
           type: string
           enum:
             - M
