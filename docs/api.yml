@@ -18,7 +18,6 @@ paths:
           required: false
           schema:
             type: string
-        #TODO3: add parameter to filter books by intervals of dates of the releaseDate
         - in: query
           name: startDate
           description: Filter books by release date after this date
@@ -63,7 +62,6 @@ paths:
                   $ref: '#/components/schemas/Book'
                   
   /authors:
-  #TODO2: complete GET (can be filtered by name) - PUT - DELETE
     get:
       summary: Get all authors
       operationId: getAuthors
@@ -131,7 +129,7 @@ components:
         bookName:
           type: string
         author:
-          #TODO1: set it as a component with properties : id, name, sex (M or F)
+          $ref: "#/components/schemas/Author"
           type: string
         pageNumbers:
           type: integer
@@ -151,8 +149,10 @@ components:
           type: string
         name:
           type: string
-    ex:
-          type: string
-          enum:
-            - M
-            - F
+        Sex: 
+          $ref: "#/components/schemas/Sex"
+    Sex:
+      type: string
+      enum:
+        - M
+        - F
