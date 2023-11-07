@@ -68,7 +68,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-                  
+  /books/{bookId}/authors/{authorId}:
+    put:
+      tags:
+        - "Books"
+      summary: Modify a Book's Author
+      operationId: ModifyAuthorFromABook
+      parameters:
+        - name: BookId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: authorId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Author Modified
+          content:
+            application/json:
+              schema:
+               $ref: "#/components/schemas/Book"
+              
+          
   /authors:
     get:
       tags:
