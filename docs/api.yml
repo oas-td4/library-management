@@ -136,27 +136,6 @@ paths:
                   $ref: '#/components/schemas/Author'
 components:
   schemas:
-    Book:
-      type: object
-      properties:
-        id:
-          type: string
-        bookName:
-          type: string
-        author:
-          $ref: "#/components/schemas/Author"
-          type: string
-        pageNumbers:
-          type: integer
-        topic:
-          type: string
-          enum:
-            - ROMANCE
-            - COMEDY
-            - OTHER
-        releaseDate:
-          type: string
-          format: date
     Author:
       type: object
       properties:
@@ -189,3 +168,11 @@ components:
         releaseDate:
           type: string
           format: date
+    Book:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/CrupdateBooks"
+      properties:
+        author:
+          $ref: "#/components/schemas/Author"
+          type: string
