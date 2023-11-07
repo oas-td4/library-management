@@ -38,6 +38,20 @@ paths:
           schema:
             type: string
             format: date
+        - in: query
+          name: page
+          description: page number for pagination
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: pageSize
+          description: Number of items per page for pagination
+          required: false
+          schema:
+            type: integer
+            default: 50
       responses:
         200:
           description: The list of filtered books
@@ -72,8 +86,8 @@ paths:
     put:
       tags:
         - "Books"
-      summary: Modify a Book's Author By Id
-      operationId: ModifyAuthorFromABookById
+      summary: Update a Book's Author By Id
+      operationId: UpdateAuthorFromABookById
       parameters:
         - name: BookId
           in: path
@@ -87,13 +101,35 @@ paths:
           required: true
       responses:
         200:
-          description: Author Modified
+          description: Author Updated
           content:
             application/json:
               schema:
                $ref: "#/components/schemas/Book"
               
-          
+  /books/authors:
+    put:
+      tags:
+        - "Books" 
+      summary: Update Book Authors
+      operationId: UpdateBookAuthors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/UpdateBookAuthor"
+
+      responses:
+        200:
+          description: Author updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+
   /authors:
     get:
       tags:
@@ -200,4 +236,11 @@ components:
       properties:
         author:
           $ref: "#/components/schemas/Author"
+          type: string
+    UpdateBookAuthor:
+      type: object
+      properties:
+        bookId:
+          type: string
+        authorId:
           type: string
