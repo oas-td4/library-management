@@ -72,8 +72,8 @@ paths:
     put:
       tags:
         - "Books"
-      summary: Modify a Book's Author
-      operationId: ModifyAuthorFromABook
+      summary: Modify a Book's Author By Id
+      operationId: ModifyAuthorFromABookById
       parameters:
         - name: BookId
           in: path
