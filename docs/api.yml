@@ -38,8 +38,7 @@ paths:
           schema:
             type: string
             format: date
-        - $ref: '#/components/parameters/queryPagination1'
-        - $ref: '#/components/parameters/queryPagination2'
+        - $ref: '#/components/parameters/queryPagination'
       responses:
         200:
           description: The list of filtered books
@@ -131,8 +130,8 @@ paths:
           required: false
           schema:
             type: string
-        - $ref: '#/components/parameters/queryPagination1'
-        - $ref: '#/components/parameters/queryPagination2'
+        - $ref: '#/components/parameters/queryPagination'
+
       responses:
         200:
           description: The list of filtered authors
@@ -190,8 +189,7 @@ paths:
       tags:
           - "Authors"
       parameters:
-          - $ref: '#/components/parameters/queryPagination1'
-          - $ref: '#/components/parameters/queryPagination2'
+        - $ref: '#/components/parameters/pathPagination'
       responses:
         200:
           description: The list of paginated authors
@@ -252,21 +250,32 @@ components:
         authorId:
           type: string
   parameters:
-    queryPagination1:
+    queryPagination:
       in: query
-      name: page
-      description: page number for pagination
+      name: queryPagination
+      description: page number and page size
       required: false 
       schema:
-          type: integer
-          default: 1
-    queryPagination2:
-      in: query
-      name: pageSize
-      description: Number of Items per page for pagination
-      required: false
-      schema: 
-        type: integer
-        default: 50
-      
+          type: object
+          properties:
+            page:
+              type: integer
+              default: 1
+            pageSize:
+              type: integer
+              default: 50
+    pathPagination:
+      in: path
+      name: pathPagination
+      description: page number and page size
+      required: true
+      schema:
+        type: object
+        properties:
+          page:
+            type: integer
+            default: 1
+          pageSize:
+            type: integer
+            default: 50
       
