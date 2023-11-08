@@ -48,6 +48,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
     put:
       tags:
         - "Books"
@@ -69,6 +75,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
   /books/{bookId}/authors/{authorId}:
     put:
       tags:
@@ -93,6 +105,12 @@ paths:
             application/json:
               schema:
                $ref: "#/components/schemas/Book"
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
               
   /books/authors:
     put:
@@ -116,7 +134,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Book"
-
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
   /authors:
     get:
       tags:
@@ -141,6 +164,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
     put:
       tags:
         - "Authors"
@@ -162,6 +191,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
   /authors/{aId}:
     delete:
       tags:
@@ -184,6 +219,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
   /authors/page/{page}/size/{size}:
     get:
       tags:
@@ -199,6 +240,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author' 
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
          
 components:
   schemas:
@@ -249,7 +296,7 @@ components:
           type: string
         authorId:
           type: string
-    CommonResponse:
+    DefaultResponseSchema:
       type: object
       properties:
         status:
@@ -261,17 +308,50 @@ components:
               type: string
         body:
           type: object
-
-    SuccessResponse:
+    Exception:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    BadRequestE:
       allOf:
-        - $ref: '#/components/schemas/CommonResponse'
-        - type: object
-          properties:
-            body:
-              type: array
-              items:
-                $ref: '#/components/schemas/Author' 
-
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: BadRequestException
+        message: Bad Request
+    NotAuthorizedE:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: NotAuthorizedE
+        message: Not Authorized 
+    InternalServerE:
+      allOf:
+        - $ref: '#/components/schemas/Exception'
+      example:
+        type: InternalServerE
+        message: Internal Server Error
+  responses:
+    400:
+      description: Bad Request
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/BadRequestE'
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/NotAuthorizedE'
+    500:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerE'
   parameters:
     queryPagination:
       in: query
