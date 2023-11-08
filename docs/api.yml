@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Library API
-  version: 1.1.0
+  version: 1.2.0
   description: STD21101
 servers:
   - url: https://library.com
@@ -120,6 +120,31 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500'
+  /books/import:
+    post:
+      tags:
+        - "Books"
+      summary: Import Books From Excel or JSON
+      operationId: importBook
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/ImportBook"
+          application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+            schema: 
+              $ref: "#/components/schemas/ImportBook"
+        required: true
+      responses:
+        200:
+          $ref: '#/components/responses/200Books'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+        
   /authors:
     get:
       tags:
@@ -134,7 +159,6 @@ paths:
           schema:
             type: string
         - $ref: '#/components/parameters/queryPagination'
-
       responses:
         200:
           $ref: '#/components/responses/200Authors'
@@ -202,7 +226,31 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500'
-         
+  /authors/import:
+    post:
+      tags:
+        - "Authors"
+      summary: Import Authors From Excel or JSON
+      operationId: importAuthor
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/ImportAuthor"
+          application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+            schema:
+              $ref: "#/components/schemas/ImportAuthor"
+        required: true
+      responses:
+        200:
+          $ref: '#/components/responses/200Authors'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+                 
 components:
   schemas:
     Author:
@@ -289,6 +337,23 @@ components:
       example:
         type: InternalServerE
         message: Internal Server Error
+    ImportAuthorExcel:
+      $ref: "#/components/schemas/Author"
+    ImportAuthorJSON:
+      $ref: "#/components/schemas/Author"
+    ImportBookExcel:
+      $ref: "#/components/schemas/Book"
+    ImportBookJSON:
+      $ref: "#/components/schemas/Book"
+    ImportAuthor: 
+      oneOf:
+        - $ref: "#/components/schemas/ImportAuthorExcel"
+        - $ref: "#/components/schemas/ImportAuthorJSON"
+    ImportBook:
+      oneOf:
+        - $ref: "#/components/schemas/ImportBookExcel"
+        - $ref: "#/components/schemas/ImportBookJSON"
+
   responses:
     200Books:
       description: Successfull Operation
