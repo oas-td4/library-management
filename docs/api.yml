@@ -249,6 +249,29 @@ components:
           type: string
         authorId:
           type: string
+    CommonResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+        body:
+          type: object
+
+    SuccessResponse:
+      allOf:
+        - $ref: '#/components/schemas/CommonResponse'
+        - type: object
+          properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Author' 
+
   parameters:
     queryPagination:
       in: query
