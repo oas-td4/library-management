@@ -345,7 +345,7 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500'
-  /visitors/{visitorId}/borrow:
+  /visitors/{visitorId}/borrowed:
     put:
       tags:
         - "Visitors"
@@ -371,7 +371,7 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500'
-  /visitors/{visitorId}/return:
+  /visitors/{visitorId}/returned:
     put:
       tags:
         - "Visitors"
