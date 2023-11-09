@@ -250,6 +250,73 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500'
+  /visitors:
+   get:
+    tags:
+      - "Visitor"
+    summary: get all visitors
+    operationId: getAllVisitors
+    parameters:
+      - $ref: '#/components/parameters/queryPagination'
+    responses:
+        200:
+          $ref: '#/components/responses/200Visitors'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+   put:
+    tags:
+      - "Visitor"
+    summary: create or update visitor
+    operationId: crupdateVisitors
+    requestBody:
+     content:
+       application/json:
+        schema: 
+         type: array
+         items:
+          $ref: '#/components/schemas/Visitor'
+    responses:
+        200:
+          $ref: '#/components/responses/200Visitors'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+     
+  /visitor/{visitorId}:
+    delete: 
+     tags:
+       - "Visitor"
+     summary: delete a visitor by the id of the visitor
+     operationId: deleteVisitor
+     parameters:
+       - in : query
+         name: visitorId
+         required: true
+         schema: 
+          type: string
+     responses:
+        200:
+          $ref: '#/components/responses/200Visitors'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500' 
+
+    
+      
+
+
+    
+
                  
 components:
   schemas:
@@ -381,6 +448,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Author'
+    200Visitors:
+      description: Successfull Operation
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Visitor'
     400:
       description: Bad Request
       content:
