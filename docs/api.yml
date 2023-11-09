@@ -353,6 +353,16 @@ components:
       oneOf:
         - $ref: "#/components/schemas/ImportBookExcel"
         - $ref: "#/components/schemas/ImportBookJSON"
+    Visitor:
+     type: object
+     properties:
+      id:
+       type: integer
+      name: 
+       type: string
+      reference: 
+       type: string
+       
 
   responses:
     200Books:
