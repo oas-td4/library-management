@@ -569,6 +569,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Visitor'
+    200VisitorActivities:
+      description: Successfull Operation
+      content:
+        application/json:
+          schema: 
+            type: array
+            items: 
+              $ref: '#/components/schemas/VisitorActivity'
     400:
       description: Bad Request
       content:
