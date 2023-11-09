@@ -8,6 +8,7 @@ servers:
 tags:
   - name: Books
   - name: Authors
+  - name: Visitors
 
 paths:
   /books:
@@ -250,6 +251,44 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500'
+  /visitors:
+    get:
+      tags:
+        - "Visitors"
+      summary: Get All Visitors
+      operationId: getVisitors
+      parameters:
+        - $ref: '#/components/parameters/queryPagination'
+      responses:
+        200:
+          $ref: '#/components/responses/200Visitors'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - "Visitors"
+      summary: Create or Update a list of Visitors 
+      operationId: crupdateVisitors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Author"
+      responses:
+        200:
+          $ref: '#/components/responses/200Visitors'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
                  
 components:
   schemas:
@@ -353,6 +392,15 @@ components:
       oneOf:
         - $ref: "#/components/schemas/ImportBookExcel"
         - $ref: "#/components/schemas/ImportBookJSON"
+    Visitors:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        reference:
+          type: string
 
   responses:
     200Books:
@@ -371,6 +419,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Author'
+    200Visitors:
+      description: Successfull Operation
+      content:
+        application/json:
+          schema: 
+            type: array
+            items:
+              $ref: '#/components/schemas/Visitors'
     400:
       description: Bad Request
       content:
