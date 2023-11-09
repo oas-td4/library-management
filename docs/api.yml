@@ -385,6 +385,8 @@ components:
         author:
           $ref: "#/components/schemas/Author"
           type: string
+        isBorrowed:
+          type: boolean
     UpdateBookAuthor:
       type: object
       properties:
