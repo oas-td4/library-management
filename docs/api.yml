@@ -111,7 +111,6 @@ paths:
               type: array
               items:
                 $ref: "#/components/schemas/UpdateBookAuthor"
-
       responses:
         200:
           $ref: '#/components/responses/200Books'
@@ -145,7 +144,38 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500'
-        
+  /books/borrowed:
+    get:
+      tags:
+        - "Books"
+      summary: Get Borrowed Books
+      operationId: getBorrowedBooks
+      responses:
+        200:
+          $ref: '#/components/responses/200Books'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+  /books/available:
+    get: 
+      tags:
+        - "Books"   
+      summary: Get Available Books
+      operationId: getAvailableBooks
+      responses:
+        200:
+          $ref: '#/components/responses/200Books'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+
+    
   /authors:
     get:
       tags:
@@ -456,6 +486,25 @@ components:
           type: string
         reference:
           type: string
+    VisitorActivity:
+      type: object
+      properties:
+        visitorId:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        borrowedBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+        returnedBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
 
   responses:
     200Books:
@@ -482,6 +531,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Visitors'
+    200VisitorActivities:
+      description: Successfull Operation
+      content:
+        application/json:
+          schema: 
+            type: array
+            items: 
+              $ref: '#/components/schemas/VisitorActivity'
     400:
       description: Bad Request
       content:
