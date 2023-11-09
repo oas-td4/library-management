@@ -310,6 +310,64 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500' 
+  /visitors/{visitorId}/borrow:
+   put:
+    tags:
+      - "Visitor" 
+    summary: borrow a book
+    operationId: borrowBook
+    parameters:
+      - in : path
+        name: visitorId
+        required: true
+        schema:
+         type: string
+      - in : query
+        name: bookId
+        required: true
+        schema:
+         type: string
+    responses:
+       200:
+        $ref: '#/components/responses/200Visitors'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500' 
+  /visitors/{visitorId}/return:
+   put:
+    tags:
+      - "Visitor" 
+    summary: return a book
+    operationId: returnBook
+    parameters:
+      - in : path
+        name: visitorId
+        required: true
+        schema:
+         type: string
+      - in : query
+        name: bookId
+        required: true
+        schema:
+         type: string
+    responses:
+       200:
+        $ref: '#/components/responses/200Visitors'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500' 
+      
+     
+
+
+       
+
 
     
       
