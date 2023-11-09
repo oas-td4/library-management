@@ -522,6 +522,26 @@ components:
        type: string
       reference: 
        type: string
+    
+    VisitorActivity:
+      type: object
+      properties:
+        visitorId:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        borrowedBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+        returnedBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
        
 
   responses:
