@@ -145,6 +145,39 @@ paths:
         500:
           $ref: '#/components/responses/500'
         
+  /books/available:
+    get:
+     tags:
+       - Books
+     summary: get all available books
+     operationId: getAvailableBooks
+     responses:
+        200:
+          $ref: '#/components/responses/200Books'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+
+  /books/borrowed:
+    get:
+     tags:
+       - Books
+     summary: get all borrowed books
+     operationId: getBorrowedBooks
+     responses:
+        200:
+          $ref: '#/components/responses/200Books'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        500:
+          $ref: '#/components/responses/500'
+       
+
   /authors:
     get:
       tags:
@@ -418,6 +451,8 @@ components:
         author:
           $ref: "#/components/schemas/Author"
           type: string
+        isBorrowed:
+          type: boolean
     UpdateBookAuthor:
       type: object
       properties:
@@ -487,6 +522,26 @@ components:
        type: string
       reference: 
        type: string
+    
+    VisitorActivity:
+      type: object
+      properties:
+        visitorId:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        borrowedBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+        returnedBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
        
 
   responses:
