@@ -485,43 +485,6 @@ components:
           type: string
         authorId:
           type: string
-    DefaultResponseSchema:
-      type: object
-      properties:
-        status:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
-        body:
-          type: object
-    Exception:
-      type: object
-      properties:
-        type:
-          type: string
-        message:
-          type: string
-    BadRequestE:
-      allOf:
-        - $ref: '#/components/schemas/Exception'
-      example:
-        type: BadRequestException
-        message: Bad Request
-    NotAuthorizedE:
-      allOf:
-        - $ref: '#/components/schemas/Exception'
-      example:
-        type: NotAuthorizedE
-        message: Not Authorized 
-    InternalServerE:
-      allOf:
-        - $ref: '#/components/schemas/Exception'
-      example:
-        type: InternalServerE
-        message: Internal Server Error
     ImportAuthorExcel:
       $ref: "#/components/schemas/Author"
     ImportAuthorJSON:
@@ -538,6 +501,68 @@ components:
       oneOf:
         - $ref: "#/components/schemas/ImportBookExcel"
         - $ref: "#/components/schemas/ImportBookJSON"
+    ResponseStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+    ResponseBodyTemplate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ResponseStatus'
+        body:
+          type: object
+    BadRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 400
+          message: BAD REQUEST
+        body: {}
+    ForbiddenRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 403
+          message: FORBIDDEN REQUEST
+    InternalServerErrorRequestBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status:
+          code: 500
+          message: INTERNAL SERVER ERROR
+        body: {}
+    BookListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Book'
+    AuthorListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Author'
+    VisitorListBody:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Visitors'
     Visitors:
       type: object
       properties:
@@ -569,29 +594,23 @@ components:
 
   responses:
     200Books:
-      description: Successfull Operation
+      description: List Of Books
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Book'
+              $ref: '#/components/schemas/BookListBody'
     200Authors:
-      description: Successfull Operation
+      description: List Of Authors
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Author'
+              $ref: '#/components/schemas/AuthorListBody'
     200Visitors:
-      description: Successfull Operation
+      description: List Of Visitors
       content:
         application/json:
-          schema: 
-            type: array
-            items:
-              $ref: '#/components/schemas/Visitors'
+          schema:
+              $ref: '#/components/schemas/VisitorListBody'
     200VisitorActivities:
       description: Successfull Operation
       content:
@@ -605,19 +624,19 @@ components:
       content:
         application/json:
           schema: 
-            $ref: '#/components/schemas/BadRequestE'
+            $ref: '#/components/schemas/BadRequestBody'
     403:
       description: Forbidden
       content:
         application/json:
           schema: 
-            $ref: '#/components/schemas/NotAuthorizedE'
+            $ref: '#/components/schemas/ForbiddenRequestBody'
     500:
       description: Internal Server Error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/InternalServerE'
+            $ref: '#/components/schemas/InternalServerErrorRequestBody'
   parameters:
     queryPagination:
       in: query
