@@ -60,6 +60,10 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Book'
+      security:
+       - api_key: []
+       - OAuth2: 
+          - add:book
       responses:
         200:
           $ref: '#/components/responses/200Books'
@@ -213,6 +217,10 @@ paths:
               type: array
               items:
               $ref: '#/components/schemas/Author'
+      security:
+       - api_key: []
+       - OAuth2: 
+          - add:book
       responses:
         200:
           $ref: '#/components/responses/200Authors'
@@ -343,12 +351,17 @@ paths:
           $ref: '#/components/responses/403'
         500:
           $ref: '#/components/responses/500' 
-  /visitors/{visitorId}/borrow:
+  /visitors/{visitorId}/borrow/return:
    put:
     tags:
       - "Visitor" 
-    summary: borrow a book
-    operationId: borrowBook
+    summary: borrow or return a book
+    security:
+     - api_key: []
+     - OAuth2: 
+       - borrow:books
+    
+    operationId: borrowOrReturnBook
     parameters:
       - in : path
         name: visitorId
@@ -360,6 +373,12 @@ paths:
         required: true
         schema:
          type: string
+      - in: query
+        name: action
+        required: true
+        schema:
+          type: string
+          enum: ["borrow", "return"]
     responses:
        200:
         $ref: '#/components/responses/200Visitors'
@@ -368,47 +387,11 @@ paths:
         403:
           $ref: '#/components/responses/403'
         500:
-          $ref: '#/components/responses/500' 
-  /visitors/{visitorId}/return:
-   put:
-    tags:
-      - "Visitor" 
-    summary: return a book
-    operationId: returnBook
-    parameters:
-      - in : path
-        name: visitorId
-        required: true
-        schema:
-         type: string
-      - in : query
-        name: bookId
-        required: true
-        schema:
-         type: string
-    responses:
-       200:
-        $ref: '#/components/responses/200Visitors'
-        400:
-          $ref: '#/components/responses/400'
-        403:
-          $ref: '#/components/responses/403'
-        500:
-          $ref: '#/components/responses/500' 
-      
-     
-
-
+          $ref: '#/components/responses/500'  
        
-
-
-    
       
 
 
-    
-
-                 
 components:
   schemas:
     Author:
@@ -542,6 +525,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Book'
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://library.com/oauth/authorize
+          tokenUrl: https://library.com/oauth/token
+          scopes:
+            borrow:books: borrow a book
+            return:books: return a book
+            add:authors: add author
+            add:books: add book
        
 
   responses:
